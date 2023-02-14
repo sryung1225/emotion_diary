@@ -18,12 +18,16 @@ function App() {
       color: 'green',
     },
   };
+
+  const number = 5;
   return (
     // class가 자바스크립트 예약어이기 때문에 className을 이용함
     <div className="App" style={style.App}>
       <MyHeader />
       <h2 style={style.h2}>안녕 리액트 {name}</h2>
-      <b style={style.bold_text} id="bold_text">React.js</b>
+      <b style={style.bold_text} id="bold_text">
+        {number}는 {number % 2 === 0 ? '짝수' : '홀수'}
+      </b>
     </div>
     // JSX 규칙 1 : 닫는 태그 꼭 사용하기
     // ❌ <image> ⭕ <image /> (self closing tag)
