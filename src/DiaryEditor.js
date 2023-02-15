@@ -12,8 +12,8 @@ import { useState } from "react";
 const DiaryEditor = () => {
 
   const [state, setState] = useState({
-    author: "이성령",
-    content: "새로운 일기입니다",
+    author: "",
+    content: "",
     emotion: 1,
   });
 
@@ -25,7 +25,7 @@ const DiaryEditor = () => {
   }
 
   const handleSubmit = () => {
-    console.log(state); // ? {author: '이성령', content: '새로운 일기입니다', emotion: 1}
+    console.log(state); // 저장된 state 확인
     alert("저장 성공!");
   }
 
@@ -47,6 +47,7 @@ const DiaryEditor = () => {
         />
       </div>
       <div>
+        <span>오늘의 감정점수 : </span>
         <select
           name="emotion"
           value={state.emotion}
