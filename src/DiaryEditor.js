@@ -18,12 +18,15 @@ const DiaryEditor = () => {
   });
 
   const handleChangeState = (e) => {
-    // console.log(e.target.name);
-    // console.log(e.target.value);
     setState({
       ...state,
       [e.target.name]: e.target.value,
     });
+  }
+
+  const handleSubmit = () => {
+    console.log(state); // ? {author: '이성령', content: '새로운 일기입니다', emotion: 1}
+    alert("저장 성공!");
   }
 
   return (
@@ -55,6 +58,9 @@ const DiaryEditor = () => {
           <option value={4}>4</option>
           <option value={5}>5</option>
         </select>
+      </div>
+      <div>
+        <button onClick={handleSubmit}>일기 저장하기</button>
       </div>
     </div>
   );
