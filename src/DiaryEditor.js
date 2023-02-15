@@ -11,8 +11,10 @@ import { useState } from "react";
 
 const DiaryEditor = () => {
 
-  const [author, setAuthor] = useState("이성령");
-  const [content, setContent] = useState("새로운 일기입니다");
+  const [state, setState] = useState({
+    author: "이성령",
+    content: "새로운 일기입니다",
+  });
 
   return (
     <div className='DiaryEditor'>
@@ -20,18 +22,23 @@ const DiaryEditor = () => {
       <div>
         <input
           name="author"
-          value={author}
+          value={state.author}
           onChange={(e) => {
-            // console.log(e.target.value);
-            // console.log(e.target.name); // ? author
-            setAuthor(e.target.value);
-          }} />
+            setState({
+              author: e.target.value,
+              content: state.content,
+            });
+          }}
+        />
       </div>
       <div>
         <textarea
-          value={content}
+          value={state.content}
           onChange={(e) => {
-            setContent(e.target.value);
+            setState({
+              author: state.author,
+              content: e.target.value,
+            });
           }}
         />
       </div>
