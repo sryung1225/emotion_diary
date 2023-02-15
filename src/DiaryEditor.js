@@ -1,16 +1,15 @@
 /* "오늘의 일기" 만들기
 
-목표 : 다양한 사용자 입력 처리하기
-- 한 줄 입력 처리하기 : input
-- 여러 줄 입력 처리하기 : textarea
-- 선택 박스 입력 처리하기
-- 사용자 입력 데이터 핸들링하기
+목표 : React에서 DOM 조작하기
+- 일기 저장 버튼을 클릭했을 때 작성자와 일기가 정상적으로 입력되었는지 확인하고 아니라면 focus 하기
 */
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const DiaryEditor = () => {
 
+  const authorInput = useRef();
+  const contentInput = useRef();
   const [state, setState] = useState({
     author: "",
     content: "",
@@ -25,6 +24,16 @@ const DiaryEditor = () => {
   }
 
   const handleSubmit = () => {
+    if (state.author.length < 1) {
+      // alert("작성자는 최소 1글자 이상 입력해주세요");
+      authorInput.current.focus();
+      return;
+    }
+    if (state.content.length < 5) {
+      // alert("일기 본문은 최소 5글자 이상 입력해주세요");
+      contentInput.current.focus();
+      return;
+    }
     console.log(state); // 저장된 state 확인
     alert("저장 성공!");
   }
@@ -34,6 +43,7 @@ const DiaryEditor = () => {
       <h2>오늘의 일기</h2>
       <div>
         <input
+          ref={authorInput}
           name="author"
           value={state.author}
           onChange={handleChangeState}
@@ -41,6 +51,7 @@ const DiaryEditor = () => {
       </div>
       <div>
         <textarea
+          ref={contentInput}
           name="content"
           value={state.content}
           onChange={handleChangeState}
