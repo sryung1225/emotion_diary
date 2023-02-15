@@ -14,6 +14,7 @@ const DiaryEditor = () => {
   const [state, setState] = useState({
     author: "이성령",
     content: "새로운 일기입니다",
+    emotion: 1,
   });
 
   const handleChangeState = (e) => {
@@ -26,7 +27,7 @@ const DiaryEditor = () => {
   }
 
   return (
-    <div className='DiaryEditor'>
+    <div className="DiaryEditor">
       <h2>오늘의 일기</h2>
       <div>
         <input
@@ -41,6 +42,19 @@ const DiaryEditor = () => {
           value={state.content}
           onChange={handleChangeState}
         />
+      </div>
+      <div>
+        <select
+          name="emotion"
+          value={state.emotion}
+          onChange={handleChangeState}
+        >
+          <option value={1}>1</option>
+          <option value={2}>2</option>
+          <option value={3}>3</option>
+          <option value={4}>4</option>
+          <option value={5}>5</option>
+        </select>
       </div>
     </div>
   );
