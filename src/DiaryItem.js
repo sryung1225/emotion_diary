@@ -12,12 +12,17 @@ const DiaryItem = ({
   const [isEdit, setIsEdit] = useState(false); // isEdit의 기본값이 false
   const toggleIsEdit = () => setIsEdit(!isEdit); // toggleIsEdit이 호출되는 순간 원래 isEdit이 갖고 있던 값을 반전
 
-  const [localContent, setLocalContent] = useState("");
+  const [localContent, setLocalContent] = useState(content);
 
   const handleRemove = () => {
     if (window.confirm(`${id}번째 일기를 정말 삭제하시겠습니까?`)) {
       onRemove(id);
     }
+  }
+
+  const handleQuitEdit = () => {
+    setIsEdit(false);
+    setLocalContent(content);
   }
 
   return (
@@ -41,7 +46,7 @@ const DiaryItem = ({
       </div>
       {isEdit ? (
         <>
-          <button onClick={toggleIsEdit}>수정 취소</button>
+          <button onClick={handleQuitEdit}>수정 취소</button>
           <button>수정 완료</button>
         </>
       ) : (
