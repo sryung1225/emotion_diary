@@ -4,6 +4,8 @@
 - 배열을 이용하여 React에서 LIST를 렌더링 해보고 개별적인 컴포넌트로 만들어보기
 */
 
+import DiaryItem from "./DiaryItem.js";
+
 const DiaryList = ({ diaryList }) => {
   console.log(diaryList); // ? (4) [{...}, {...}, {...}, {...}]
   return (
@@ -12,12 +14,7 @@ const DiaryList = ({ diaryList }) => {
       <h4>{diaryList.length}개의 일기가 있습니다.</h4>
       <div>
         {diaryList.map((it) => (
-          <div key={it.id}>
-            <div>작성자 : {it.author}</div>
-            <div>일기 : {it.content}</div>
-            <div>감정 : {it.emotion}</div>
-            <div>작성 시간(ms) : {it.create_date}</div>
-          </div>
+          <DiaryItem key={it.id} {...it} />
         ))}
       </div>
     </div>
