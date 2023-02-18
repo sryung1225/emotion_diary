@@ -24,4 +24,11 @@ const DiaryList = ({ diaryList }) => {
     </div>
   );
 };
+
+// diaryList에 들어온 데이터가 없는 경우(undefined)
+// diaryList.length 에서 오류가 나는 것을 방지해 default props 지정
+DiaryList.defaultProps = {
+  diaryList: [],
+};
+
 export default DiaryList;
