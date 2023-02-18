@@ -1,3 +1,4 @@
+import { useState } from 'react';
 const DiaryItem = ({
   id,
   author,
@@ -6,6 +7,10 @@ const DiaryItem = ({
   create_date,
   onRemove
 }) => {
+
+  // 현재 수정 중이라면 true, 아니라면 false 라고 값을 보관할 용도로 사용
+  const [isEdit, setIsEdit] = useState(false); // isEdit의 기본값이 false
+  const toggleIsEdit = () => setIsEdit(!isEdit); // toggleIsEdit이 호출되는 순간 원래 isEdit이 갖고 있던 값을 반전
 
   const handleRemove = () => {
     if (window.confirm(`${id}번째 일기를 정말 삭제하시겠습니까?`)) {
@@ -22,6 +27,7 @@ const DiaryItem = ({
       </div>
       <div className="content">{content}</div>
       <button onClick={handleRemove}>삭제하기</button>
+      <button onClick={toggleIsEdit}>수정하기</button>
     </div>
   );
 };
