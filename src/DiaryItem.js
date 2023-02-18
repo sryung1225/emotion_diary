@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+
 const DiaryItem = ({
   id,
   author,
   content,
   emotion,
   create_date,
-  onRemove
+  onRemove,
+  onEdit
 }) => {
 
   // 현재 수정 중이라면 true, 아니라면 false 라고 값을 보관할 용도로 사용
@@ -13,6 +15,8 @@ const DiaryItem = ({
   const toggleIsEdit = () => setIsEdit(!isEdit); // toggleIsEdit이 호출되는 순간 원래 isEdit이 갖고 있던 값을 반전
 
   const [localContent, setLocalContent] = useState(content);
+
+  const localContentInput = useRef();
 
   const handleRemove = () => {
     if (window.confirm(`${id}번째 일기를 정말 삭제하시겠습니까?`)) {
@@ -23,6 +27,17 @@ const DiaryItem = ({
   const handleQuitEdit = () => {
     setIsEdit(false);
     setLocalContent(content);
+  }
+
+  const handleEdit = () => {
+    if (localContent.length < 5) {
+      localContentInput.current.focus();
+      return;
+    }
+    if (window.confirm(`${id}번째 일기를 수정하시겠습니까?`)) {
+      onEdit(id, localContent);
+      toggleIsEdit();
+    }
   }
 
   return (
@@ -36,6 +51,7 @@ const DiaryItem = ({
         {isEdit ? (
           <>
             <textarea
+              ref={localContentInput}
               value={localContent}
               onChange={(e) => setLocalContent(e.target.value)}
             />
@@ -47,7 +63,7 @@ const DiaryItem = ({
       {isEdit ? (
         <>
           <button onClick={handleQuitEdit}>수정 취소</button>
-          <button>수정 완료</button>
+          <button onClick={handleEdit}>수정 완료</button>
         </>
       ) : (
         <>

@@ -34,6 +34,7 @@ function App() {
     // (새로운 아이템이 상단에 오도록 배치 하기위해 newItem을 먼저 작성함)
   }
 
+  // 작성한 일기를 삭제하는 함수 onRemove
   const onRemove = (targetId) => {
     console.log(`${targetId}가 삭제되었습니다.`);
     // targetId를 제외한 일기 리스트만 만들기 위해 filter 사용. setData로 갱신
@@ -41,10 +42,21 @@ function App() {
     setData(newDiaryList);
   }
 
+  // 작성한 일기를 수정하는 함수 onEdit
+  const onEdit = (targetId, newContent) => {
+    setData(
+      // 데이터를 순환하면서
+      data.map((it) =>
+        // 수정 타겟(targetId)을 만나게 되면 콘텐츠를 newContent로 교체
+        it.id === targetId ? { ...it, content: newContent } : it
+      )
+    )
+  }
+
   return (
     <div className="App">
       <DiaryEditor onCreate={onCreate} />
-      <DiaryList onRemove={onRemove} diaryList={data} /> {/* state이기 때문에 data를 바꾸면, diaryList도 변화 */}
+      <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data} /> {/* state이기 때문에 data를 바꾸면, diaryList도 변화 */}
     </div>
   );
 }
