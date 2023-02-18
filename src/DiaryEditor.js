@@ -35,8 +35,12 @@ const DiaryEditor = ({ onCreate }) => {
       return;
     }
     onCreate(state.author, state.content, state.emotion);
-    // console.log(state); // 저장된 state 확인
     alert("저장 성공!");
+    setState({
+      author: "",
+      content: "",
+      emotion: 1,
+    });
   }
 
   return (
