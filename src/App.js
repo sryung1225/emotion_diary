@@ -5,10 +5,11 @@
 - With React처럼 생각하기
 */
 
+import { useRef, useState } from 'react';
 import './App.css';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
-import { useRef, useState } from 'react';
+import Lifecycle from './Lifecycle';
 
 function App() {
   // DiaryEditor와 Diary가 함께 사용할 일기 데이터 data (state)
@@ -55,6 +56,7 @@ function App() {
 
   return (
     <div className="App">
+      <Lifecycle />
       <DiaryEditor onCreate={onCreate} />
       <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data} /> {/* state이기 때문에 data를 바꾸면, diaryList도 변화 */}
     </div>
