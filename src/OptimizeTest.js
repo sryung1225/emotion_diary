@@ -15,37 +15,51 @@ React.Memo
 
 import React, { useState, useEffect } from "react";
 
-// 자식 컴포넌트 Textview, Countview
-const Textview = React.memo(({ text }) => {
+// 자식 컴포넌트 CounterA, CounterB
+const CounterA = React.memo(({ count }) => {
   useEffect(() => {
-    console.log(`Update :: Text : ${text}`);
-  }) // 리렌더링할 때의 props 확인
-  return <div>{text}</div>
-});
-const Countview = React.memo(({ count }) => {
-  useEffect(() => {
-    console.log(`Update :: Count : ${count}`);
+    console.log(`CounterA Update - count: ${count}`); // ? CounterA Update - count: 1
   })
   return <div>{count}</div>
 });
+const CounterB = React.memo(({ obj }) => {
+  useEffect(() => {
+    console.log(`CounterB Update - obj: ${obj.count}`); // ? CounterB Update - obj: 1
+  })
+  // B button 클릭마다 콘솔창 출력
+  // = prop이 동일한데도 React.memo로 리렌더링이 막아지지 않음
+  // 이유는 React.memo가 얕은 비교(객체의 주소 비교)를 기본으로 하기 때문
+  return <div>{obj.count}</div>
+});
 
 // 부모 컴포넌트 OptimizeTest
-// button, input 조작 시 state 변화 => 자식 컴포넌트 리렌더링
+// button 조작 시 state 변화 => 자식 컴포넌트 리렌더링
 const OptimizeTest = () => {
   const [count, setCount] = useState(1);
-  const [text, setText] = useState("");
+  const [obj, setObj] = useState({
+    count: 1
+  }); // Object Prop
 
   return (
     <div style={{ padding: 50 }}>
       <div>
-        <h2>count</h2>
-        <Countview count={count} />
-        <button onClick={() => setCount(count + 1)}>+</button>
+        <h2>Counter A</h2>
+        <CounterA count={count} />
+        <button onClick={() => setCount(count)}>A button</button>
+        {/* SetCount(count) : 상태 변화를 일으키지만 같은 값으로 */}
+        {/* 때문에 자식 컴포넌트에서 React.memo 사용해서 prop 변화만 감지한다면 */}
+        {/* 이 버튼을 눌러도 자식 컴포넌트가 리렌더링 할 일은 없을 예정 */}
       </div>
       <div>
-        <h2>text</h2>
-        <Textview text={text} />
-        <input value={text} onChange={(e) => setText(e.target.value)} />
+        <h2>Counter B</h2>
+        <CounterB obj={obj} />
+        <button onClick={() =>
+          setObj({
+            count: obj.count,
+          })
+        }>B button</button>
+        {/* CounterA와 상황은 같음. 상태 변화는 있지만 같은 값 */}
+        {/* 차이점은 객체라는 것 */}
       </div>
     </div>
   )
