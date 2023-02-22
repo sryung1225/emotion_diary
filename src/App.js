@@ -1,4 +1,14 @@
-import { useRef, useState } from 'react';
+/* "오늘의 일기"
+
+목표 : React에서 API 호출하기
+- useEffect를 이용하여 컴포넌트 Mount 시점에 API를 호출하고, 해당 API의 결과값을 일기 데이터의 초기값으로 이용하기
+- 자바스크립트 API 호출 내장 함수인 "fetch"를 사용
+- API의 응답 데이터를 App 컴포넌트가 가지고 있는 일기 데이터 data state에 저장
+*/
+
+// https://jsonplaceholder.typicode.com/comments
+
+import { useRef, useState, useEffect } from 'react';
 import './App.css';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
@@ -10,6 +20,17 @@ function App() {
   // [] 빈객체인 이유? 일기가 없는 상태로 시작할거니까
 
   const dateId = useRef(0);
+
+  const getData = async () => {
+    const res = await fetch(
+      'https://jsonplaceholder.typicode.com/comments'
+    ).then((res) => res.json());
+    console.log(res); // ? (500) [{…}, {…}, ..., {…}]
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   // 새로운 일기를 추가하는 함수 onCreate
   const onCreate = (author, content, emotion) => {
