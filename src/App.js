@@ -62,23 +62,21 @@ function App() {
   }, []);
 
   // 작성한 일기를 삭제하는 함수 onRemove
-  const onRemove = (targetId) => {
-    // console.log(`${targetId}가 삭제되었습니다.`);
+  const onRemove = useCallback((targetId) => {
     // targetId를 제외한 일기 리스트만 만들기 위해 filter 사용. setData로 갱신
-    const newDiaryList = data.filter((it) => it.id !== targetId);
-    setData(newDiaryList);
-  }
+    setData(data => (data.filter((it) => it.id !== targetId)));
+  }, []);
 
   // 작성한 일기를 수정하는 함수 onEdit
-  const onEdit = (targetId, newContent) => {
-    setData(
+  const onEdit = useCallback((targetId, newContent) => {
+    setData(data => (
       // 데이터를 순환하면서
       data.map((it) =>
         // 수정 타겟(targetId)을 만나게 되면 콘텐츠를 newContent로 교체
         it.id === targetId ? { ...it, content: newContent } : it
       )
-    )
-  }
+    ));
+  }, []);
 
   // data state가 갖고 있는 일기들을 분석한 지역 함수 getDiaryAnalysis
   // 일기 리스트 중 일기 수정 시, content만 수정될 뿐 emotion은 영향이 없어 재수행될 필요가 없음(에도 수행되고 있음)

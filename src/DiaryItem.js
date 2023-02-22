@@ -1,4 +1,10 @@
-import { useState, useRef } from 'react';
+/*
+목표 : 일기 1개 삭제시, 나머지 일기 리스트 리렌더링 발생 방어
+- DiaryItem에 React.memo 적용
+- DiaryEditor 리렌더링 이유 추적 후 개선
+*/
+
+import React, { useState, useRef, useEffect } from 'react';
 
 const DiaryItem = ({
   id,
@@ -9,6 +15,10 @@ const DiaryItem = ({
   onRemove,
   onEdit
 }) => {
+
+  useEffect(() => {
+    console.log(`${id}번째 일기 렌더링`);
+  }); // 렌더링 발생 시점 확인
 
   // 현재 수정 중이라면 true, 아니라면 false 라고 값을 보관할 용도로 사용
   const [isEdit, setIsEdit] = useState(false); // isEdit의 기본값이 false
@@ -74,4 +84,4 @@ const DiaryItem = ({
     </div>
   );
 };
-export default DiaryItem;
+export default React.memo(DiaryItem);
