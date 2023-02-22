@@ -1,12 +1,10 @@
-/* "오늘의 일기"
+/* 성능 최적화
 
-목표 : React에서 API 호출하기
-- useEffect를 이용하여 컴포넌트 Mount 시점에 API를 호출하고, 해당 API의 결과값을 일기 데이터의 초기값으로 이용하기
-- 자바스크립트 API 호출 내장 함수인 "fetch"를 사용
-- API의 응답 데이터를 App 컴포넌트가 가지고 있는 일기 데이터 data state에 저장
+목표 : 연산 결과값 재사용 하기
+- 현재 일기 데이터를 분석하는 함수를 제작
+- 해당 함수가 일기 데이터의 길이가 변화하지 않을 때에는 값을 다시 계산하지 않도록 하기
+- 🧨 Memoization 이해하기
 */
-
-// https://jsonplaceholder.typicode.com/comments
 
 import { useRef, useState, useEffect } from 'react';
 import './App.css';
@@ -77,9 +75,24 @@ function App() {
     )
   }
 
+  // data state가 갖고 있는 일기들을 분석한 지역 함수 getDiaryAnalysis
+  const getDiaryAnalysis = () => {
+    console.log("일기 분석 시작");
+    const goodCount = data.filter((it) => it.emotion >= 3).length;
+    const badCount = data.length - goodCount;
+    const goodRatio = (goodCount / data.length) * 100;
+    return { goodCount, badCount, goodRatio };
+  }
+  // 호출 (+비구조화 할당)
+  const { goodCount, badCount, goodRatio } = getDiaryAnalysis();
+
   return (
     <div className="App">
       <DiaryEditor onCreate={onCreate} />
+      <div>전체 일기 : {data.length}</div>
+      <div>기분 좋은 일기 개수 : {goodCount}</div>
+      <div>기분 나쁜 일기 개수 : {badCount}</div>
+      <div>기분 좋은 일기 비율 : {goodRatio}</div>
       <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data} /> {/* state이기 때문에 data를 바꾸면, diaryList도 변화 */}
     </div>
   );
