@@ -10,7 +10,6 @@ import { useRef, useState, useEffect, useMemo } from 'react';
 import './App.css';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
-import OptimizeTest from './OptimizeTest';
 
 function App() {
   // DiaryEditor와 Diary가 함께 사용할 일기 데이터 data (state)
@@ -93,7 +92,6 @@ function App() {
 
   return (
     <div className="App">
-      <OptimizeTest />
       <DiaryEditor onCreate={onCreate} />
       <div>전체 일기 : {data.length}</div>
       <div>기분 좋은 일기 개수 : {goodCount}</div>
