@@ -7,7 +7,7 @@
 import DiaryItem from "./DiaryItem.js";
 
 const DiaryList = ({ diaryList, onRemove, onEdit }) => {
-  console.log(diaryList); // ? (4) [{...}, {...}, {...}, {...}]
+  // console.log(diaryList); // ? (4) [{...}, {...}, {...}, {...}]
   return (
     <div className="DiaryList">
       <h2>일기 리스트</h2>

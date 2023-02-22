@@ -1,15 +1,7 @@
-/* "오늘의 일기" + "일기 리스트"
-
-목표 : React에서 리스트 데이터 추가하기
-- 배열을 이용한 React의 List에 아이템을 동적으로 추가해보기
-- With React처럼 생각하기
-*/
-
 import { useRef, useState } from 'react';
 import './App.css';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
-import Lifecycle from './Lifecycle';
 
 function App() {
   // DiaryEditor와 Diary가 함께 사용할 일기 데이터 data (state)
@@ -56,7 +48,6 @@ function App() {
 
   return (
     <div className="App">
-      <Lifecycle />
       <DiaryEditor onCreate={onCreate} />
       <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data} /> {/* state이기 때문에 data를 바꾸면, diaryList도 변화 */}
     </div>
