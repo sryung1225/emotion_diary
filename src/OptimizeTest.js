@@ -16,18 +16,18 @@ React.Memo
 import React, { useState, useEffect } from "react";
 
 // 자식 컴포넌트 Textview, Countview
-const Textview = ({ text }) => {
+const Textview = React.memo(({ text }) => {
   useEffect(() => {
     console.log(`Update :: Text : ${text}`);
   }) // 리렌더링할 때의 props 확인
   return <div>{text}</div>
-}
-const Countview = ({ count }) => {
+});
+const Countview = React.memo(({ count }) => {
   useEffect(() => {
     console.log(`Update :: Count : ${count}`);
   })
   return <div>{count}</div>
-}
+});
 
 // 부모 컴포넌트 OptimizeTest
 // button, input 조작 시 state 변화 => 자식 컴포넌트 리렌더링
