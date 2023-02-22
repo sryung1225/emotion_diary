@@ -7,8 +7,6 @@
 
 import React, { useRef, useState, useEffect } from "react";
 
-// (3) onCreate 함수를 받는 DiaryEditor도 계속해서 다시 렌더링되는 모양새
-// (4) 결론 : onCreate 함수가 재생성되지 않아야 함
 const DiaryEditor = ({ onCreate }) => {
 
   useEffect(() => {

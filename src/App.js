@@ -6,7 +6,7 @@
 - 🧨 Memoization 이해하기
 */
 
-import { useRef, useState, useEffect, useMemo } from 'react';
+import { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import './App.css';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
@@ -39,13 +39,12 @@ function App() {
   useEffect(() => {
     getData();
   }, []);
-  // (1) 처음 data가 빈 객체로 시작했다가 Mount되는 시점에 getData 실행
-  //     getData 내에서 완성된 결과를 setData에 전달하기 때문에 리렌더링
-  //     => 즉, Mount시 렌더링이 두번. 성능 최적화 하면 좋을 것으로 판단
 
-  // (2) App의 자식 컴포넌트인 onCreate도 계속해서 렌더링됨
   // 새로운 일기를 추가하는 함수 onCreate
-  const onCreate = (author, content, emotion) => {
+  // Hook인 useCallback 사용
+  // - useMemo는 값을 반환
+  // - useCallback은 콜백 함수 반환
+  const onCreate = useCallback((author, content, emotion) => {
     const create_date = new Date().getTime();
     const newItem = {
       author,
@@ -55,10 +54,12 @@ function App() {
       id: dataId.current
     }
     dataId.current += 1;
-    setData([newItem, ...data]);
+    setData(data => [(newItem), ...data]);
     // 원래 data에 덧붙여 새로운 데이터(일기)를 추가
     // (새로운 아이템이 상단에 오도록 배치 하기위해 newItem을 먼저 작성함)
-  }
+    // 함수형 업데이트 : setData에 함수를 전달함
+    // deps를 []로 비워도 항상 최신의 state를 data인자로 가져오도록 도와줌
+  }, []);
 
   // 작성한 일기를 삭제하는 함수 onRemove
   const onRemove = (targetId) => {
