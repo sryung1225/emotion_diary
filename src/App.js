@@ -10,6 +10,7 @@ import { useRef, useState, useEffect, useMemo } from 'react';
 import './App.css';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
+import OptimizeTest from './OptimizeTest';
 
 function App() {
   // DiaryEditor와 Diary가 함께 사용할 일기 데이터 data (state)
@@ -58,7 +59,7 @@ function App() {
 
   // 작성한 일기를 삭제하는 함수 onRemove
   const onRemove = (targetId) => {
-    console.log(`${targetId}가 삭제되었습니다.`);
+    // console.log(`${targetId}가 삭제되었습니다.`);
     // targetId를 제외한 일기 리스트만 만들기 위해 filter 사용. setData로 갱신
     const newDiaryList = data.filter((it) => it.id !== targetId);
     setData(newDiaryList);
@@ -92,6 +93,7 @@ function App() {
 
   return (
     <div className="App">
+      <OptimizeTest />
       <DiaryEditor onCreate={onCreate} />
       <div>전체 일기 : {data.length}</div>
       <div>기분 좋은 일기 개수 : {goodCount}</div>
