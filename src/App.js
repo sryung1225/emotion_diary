@@ -19,13 +19,12 @@ function App() {
   const [data, setData] = useState([]);
   // [] 빈객체인 이유? 일기가 없는 상태로 시작할거니까
 
-  const dateId = useRef(0);
+  const dataId = useRef(0);
 
   const getData = async () => {
     const res = await fetch(
       'https://jsonplaceholder.typicode.com/comments'
     ).then((res) => res.json());
-    console.log(res); // ? (500) [{…}, {…}, ..., {…}]
   };
 
   useEffect(() => {
@@ -40,9 +39,9 @@ function App() {
       content,
       emotion,
       create_date,
-      id: dateId.current
+      id: dataId.current
     }
-    dateId.current += 1;
+    dataId.current += 1;
     setData([newItem, ...data]);
     // 원래 data에 덧붙여 새로운 데이터(일기)를 추가
     // (새로운 아이템이 상단에 오도록 배치 하기위해 newItem을 먼저 작성함)
