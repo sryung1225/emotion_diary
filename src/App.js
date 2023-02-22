@@ -39,7 +39,11 @@ function App() {
   useEffect(() => {
     getData();
   }, []);
+  // (1) 처음 data가 빈 객체로 시작했다가 Mount되는 시점에 getData 실행
+  //     getData 내에서 완성된 결과를 setData에 전달하기 때문에 리렌더링
+  //     => 즉, Mount시 렌더링이 두번. 성능 최적화 하면 좋을 것으로 판단
 
+  // (2) App의 자식 컴포넌트인 onCreate도 계속해서 렌더링됨
   // 새로운 일기를 추가하는 함수 onCreate
   const onCreate = (author, content, emotion) => {
     const create_date = new Date().getTime();

@@ -1,12 +1,19 @@
-/* "오늘의 일기" 만들기
+/* 성능 최적화
 
-목표 : React에서 DOM 조작하기
-- 일기 저장 버튼을 클릭했을 때 작성자와 일기가 정상적으로 입력되었는지 확인하고 아니라면 focus 하기
+목표 : 일기 삭제시, 오늘의 일기 에디터 리렌더링 발생 방어
+- DiaryEditor에 React.memo 적용
+- DiaryEditor 리렌더링 이유 추적 후 개선
 */
 
-import { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
+// (3) onCreate 함수를 받는 DiaryEditor도 계속해서 다시 렌더링되는 모양새
+// (4) 결론 : onCreate 함수가 재생성되지 않아야 함
 const DiaryEditor = ({ onCreate }) => {
+
+  useEffect(() => {
+    console.log("DiaryEditor 렌더링!");
+  }); // 렌더링 발생 시점 확인
 
   const authorInput = useRef();
   const contentInput = useRef();
@@ -82,4 +89,4 @@ const DiaryEditor = ({ onCreate }) => {
     </div>
   );
 };
-export default DiaryEditor;
+export default React.memo(DiaryEditor);
