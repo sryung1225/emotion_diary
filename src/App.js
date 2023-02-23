@@ -1,21 +1,39 @@
-/* 성능 최적화
-
-목표 : 연산 결과값 재사용 하기
-- 현재 일기 데이터를 분석하는 함수를 제작
-- 해당 함수가 일기 데이터의 길이가 변화하지 않을 때에는 값을 다시 계산하지 않도록 하기
-- 🧨 Memoization 이해하기
-*/
-
-import { useRef, useState, useEffect, useMemo, useCallback } from 'react';
+import { useRef, useEffect, useMemo, useCallback, useReducer } from 'react';
 import './App.css';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
 
-function App() {
-  // DiaryEditor와 Diary가 함께 사용할 일기 데이터 data (state)
-  // 일기 상태 변환 함수 setData 도 함께 함
-  const [data, setData] = useState([]);
-  // [] 빈객체인 이유? 일기가 없는 상태로 시작할거니까
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'INIT': {
+      return action.data;
+    }
+    case 'CREATE': {
+      const create_date = new Date().getDate();
+      const newitem = {
+        ...action.data,
+        create_date
+      }
+      return [newitem, ...state];
+    }
+    case 'REMOVE': {
+      return state.filter((it) => it.id !== action.targetId);
+    }
+    case 'EDIT': {
+      return state.map((it) =>
+        it.id === action.targetId
+          ? { ...it, content: action.newContent }
+          : it
+      );
+    }
+    default:
+      return state;
+  }
+}
+
+const App = () => {
+  // 리팩토링) useState 대신에 useReducer 사용
+  const [data, dispatch] = useReducer(reducer, []);
 
   const dataId = useRef(0);
 
@@ -33,7 +51,7 @@ function App() {
         id: dataId.current++
       }
     })
-    setData(initData);
+    dispatch({ type: 'INIT', data: initData })
   };
 
   useEffect(() => {
@@ -41,41 +59,22 @@ function App() {
   }, []);
 
   // 새로운 일기를 추가하는 함수 onCreate
-  // Hook인 useCallback 사용
-  // - useMemo는 값을 반환
-  // - useCallback은 콜백 함수 반환
   const onCreate = useCallback((author, content, emotion) => {
-    const create_date = new Date().getTime();
-    const newItem = {
-      author,
-      content,
-      emotion,
-      create_date,
-      id: dataId.current
-    }
+    dispatch({
+      type: 'CREATE',
+      data: { author, content, emotion, id: dataId.current },
+    })
     dataId.current += 1;
-    setData(data => [(newItem), ...data]);
-    // 원래 data에 덧붙여 새로운 데이터(일기)를 추가
-    // (새로운 아이템이 상단에 오도록 배치 하기위해 newItem을 먼저 작성함)
-    // 함수형 업데이트 : setData에 함수를 전달함
-    // deps를 []로 비워도 항상 최신의 state를 data인자로 가져오도록 도와줌
   }, []);
 
   // 작성한 일기를 삭제하는 함수 onRemove
   const onRemove = useCallback((targetId) => {
-    // targetId를 제외한 일기 리스트만 만들기 위해 filter 사용. setData로 갱신
-    setData(data => (data.filter((it) => it.id !== targetId)));
+    dispatch({ type: 'REMOVE', targetId })
   }, []);
 
   // 작성한 일기를 수정하는 함수 onEdit
   const onEdit = useCallback((targetId, newContent) => {
-    setData(data => (
-      // 데이터를 순환하면서
-      data.map((it) =>
-        // 수정 타겟(targetId)을 만나게 되면 콘텐츠를 newContent로 교체
-        it.id === targetId ? { ...it, content: newContent } : it
-      )
-    ));
+    dispatch({ type: 'EDIT', targetId, newContent })
   }, []);
 
   // data state가 갖고 있는 일기들을 분석한 지역 함수 getDiaryAnalysis
