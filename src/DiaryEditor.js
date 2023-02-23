@@ -1,17 +1,9 @@
-/* 성능 최적화
+import React, { useRef, useState, useContext } from "react";
+import { DiaryDispatchContext } from "./App";
 
-목표 : 일기 삭제시, 오늘의 일기 에디터 리렌더링 발생 방어
-- DiaryEditor에 React.memo 적용
-- DiaryEditor 리렌더링 이유 추적 후 개선
-*/
+const DiaryEditor = () => {
 
-import React, { useRef, useState, useEffect } from "react";
-
-const DiaryEditor = ({ onCreate }) => {
-
-  useEffect(() => {
-    console.log("DiaryEditor 렌더링!");
-  }); // 렌더링 발생 시점 확인
+  const { onCreate } = useContext(DiaryDispatchContext);
 
   const authorInput = useRef();
   const contentInput = useRef();
@@ -30,12 +22,10 @@ const DiaryEditor = ({ onCreate }) => {
 
   const handleSubmit = () => {
     if (state.author.length < 1) {
-      // alert("작성자는 최소 1글자 이상 입력해주세요");
       authorInput.current.focus();
       return;
     }
     if (state.content.length < 5) {
-      // alert("일기 본문은 최소 5글자 이상 입력해주세요");
       contentInput.current.focus();
       return;
     }
