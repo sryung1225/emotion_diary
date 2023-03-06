@@ -17,7 +17,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/new" element={<New />} />
           <Route path="/edit" element={<Edit />} />
-          <Route path="/diary" element={<Diary />} />
+          <Route path="/diary/:id" element={<Diary />} />
         </Routes>
         {/* <a href="/new">New로 이동</a> 은 새로고침 발생 : MPA 방식 */}
         <RouteTest />
