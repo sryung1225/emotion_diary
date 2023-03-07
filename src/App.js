@@ -1,5 +1,5 @@
 import './App.css';
-import { useReducer, useRef } from 'react';
+import React, { useReducer, useRef } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Home from './pages/Home';
@@ -35,6 +35,8 @@ const reducer = (state, action) => {
   }
   return newState;
 };
+
+export const DiaryStateContext = React.createContext();
 
 function App() {
 
@@ -72,16 +74,18 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/new" element={<New />} />
-          <Route path="/edit" element={<Edit />} />
-          <Route path="/diary/:id" element={<Diary />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <DiaryStateContext.Provider value={data}>
+      <BrowserRouter>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/new" element={<New />} />
+            <Route path="/edit" element={<Edit />} />
+            <Route path="/diary/:id" element={<Diary />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </DiaryStateContext.Provider>
   );
 }
 
