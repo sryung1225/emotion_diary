@@ -1,4 +1,3 @@
-import style from "./DiaryList.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MyButton from './MyButton';
@@ -17,7 +16,7 @@ const filterOptionList = [
 const ControlMenu = ({ value, onChange, optionList }) => {
   return (
     <select
-      className={`${style.ControlMenu}`}
+      className="ControlMenu"
       value={value}
       onChange={(e) => onChange(e.target.value)}
     >
@@ -60,10 +59,9 @@ const DiaryList = ({ diaryList }) => {
   };
 
   return (
-    <div className={`${style.DiaryList}`} >
-
-      <div className={`${style.menu_wrapper}`}>
-        <div className={`${style.left_col}`}>
+    <div className="DiaryList">
+      <div className="menu_wrapper">
+        <div className="left_col">
           <ControlMenu
             value={sortType}
             onChange={setSortType}
@@ -75,7 +73,7 @@ const DiaryList = ({ diaryList }) => {
             optionList={filterOptionList}
           />
         </div>
-        <div className={`${style.right_col}`}>
+        <div className="right_col">
           <MyButton
             type={"positive"}
             text={"새 일기쓰기"}
