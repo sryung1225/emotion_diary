@@ -44,31 +44,31 @@ const dummyData = [
   {
     id: 1,
     emotion: 1,
-    content: "오늘의 일기 1",
+    content: "오늘의 일기 1번",
     date: 1678617350202, // ms (빠르게 예시 만드는 법 : new Date().getTime() 해서 현재시간 ms로 값 가져와보기)
   },
   {
     id: 2,
     emotion: 2,
-    content: "오늘의 일기 2",
+    content: "오늘의 일기 2번",
     date: 1678617350203,
   },
   {
     id: 3,
     emotion: 3,
-    content: "오늘의 일기 3",
+    content: "오늘의 일기 3번",
     date: 1678617350204,
   },
   {
     id: 4,
     emotion: 4,
-    content: "오늘의 일기 4",
+    content: "오늘의 일기 4번",
     date: 1678617350205,
   },
   {
     id: 5,
     emotion: 5,
-    content: "오늘의 일기 5",
+    content: "오늘의 일기 5번",
     date: 1678617350206, // 가장 최신 일기
   },
 ];

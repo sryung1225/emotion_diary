@@ -3,7 +3,13 @@ import { useState } from "react";
 const sortOptionList = [
   { value: "latest", name: "최신순" },
   { value: "oldest", name: "오래된순" }
-]
+];
+
+const filterOptionList = [
+  { value: "all", name: "전부다" },
+  { value: "good", name: "좋은 감정만" },
+  { value: "bad", name: "안좋은 감정만" },
+];
 
 const ControlMenu = ({ value, onChange, optionList }) => {
   return (
@@ -18,6 +24,7 @@ const ControlMenu = ({ value, onChange, optionList }) => {
 const DiaryList = ({ diaryList }) => {
 
   const [sortType, setSortType] = useState("latest");
+  const [filter, setFilter] = useState("all");
 
   const getProcessedDiaryList = () => {
 
@@ -29,10 +36,21 @@ const DiaryList = ({ diaryList }) => {
       }
     }; // 비교함수
 
+    const filterCallBack = (item) => {
+      if (filter === "good") {
+        return parseInt(item.emotion) <= 3;
+      } else if (filter === "bad") {
+        return parseInt(item.emotion) > 3;
+      }
+    };
+
     const copyList = JSON.parse(JSON.stringify(diaryList)); // 원본이 파괴되지 않도록 깊은 복사 (배열=>문자열=>배열)
-    const sortedList = copyList.sort(compare);
+
+    const filteredList = (filter === "all") ? copyList : copyList.filter((it) => filterCallBack(it));
+
+    const sortedList = filteredList.sort(compare);
     return sortedList;
-  }
+  };
 
   return (
     <div>
@@ -41,9 +59,14 @@ const DiaryList = ({ diaryList }) => {
         onChange={setSortType}
         optionList={sortOptionList}
       />
+      <ControlMenu
+        value={filter}
+        onChange={setFilter}
+        optionList={filterOptionList}
+      />
       {getProcessedDiaryList().map((it) => (
         <div key={it.id}>
-          {it.content}
+          {it.content} {it.emotion}
         </div>
       ))}
     </div>
