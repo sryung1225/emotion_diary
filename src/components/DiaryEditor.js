@@ -1,9 +1,10 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import MyHeader from "./MyHeader";
 import MyButton from './MyButton';
 import EmotionItem from "./EmotionItem";
+import { DiaryDispatchContext } from "../App";
 
 const getStringDate = (date) => { // date 객체를 전달 받고
   return date.toISOString().slice(0, 10); // 사용 가능하게 가공한 뒤 YYYY-MM-DD까지만 자름
@@ -54,6 +55,16 @@ const DiaryEditor = () => {
   const [content, setContent] = useState("");
   const contentRef = useRef();
 
+  const { onCreate } = useContext(DiaryDispatchContext);
+  const handleSubmit = () => {
+    if (content.length < 1) {
+      contentRef.current.focus();
+      return;
+    } // 적어도 1자라도 쓰지 않으면 넘어가지 않도록
+    onCreate(date, content, emotion); // *작성 순서 유의
+    navigate('/', { replace: true }) // 뒤로가기를 통해 일기 작성 페이지로 오지 않도록 옵션 걸어줌
+  }
+
   return (
     <div className="DiaryEditor">
       <MyHeader
@@ -93,6 +104,19 @@ const DiaryEditor = () => {
               ref={contentRef}
               value={content}
               onChange={(e) => setContent(e.target.value)}
+            />
+          </div>
+        </section>
+        <section>
+          <div className="control_box">
+            <MyButton
+              text={"취소하기"}
+              onClick={() => navigate(-1)}
+            />
+            <MyButton
+              text={"작성완료"}
+              type={"positive"}
+              onClick={handleSubmit}
             />
           </div>
         </section>
