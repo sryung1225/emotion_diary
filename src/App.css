@@ -38,6 +38,7 @@ body {
   border: none;
   border-radius: 5px;
   font-family: 'Nanum Pen Script';
+  font-size: 18px;
   white-space: nowrap;
   cursor: pointer;
 }
