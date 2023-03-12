@@ -8,6 +8,7 @@ import Edit from './pages/Edit';
 import Diary from './pages/Diary';
 
 const reducer = (state, action) => {
+
   let newState = [];
   switch (action.type) {
     case 'INIT': {
@@ -39,9 +40,44 @@ const reducer = (state, action) => {
 export const DiaryStateContext = React.createContext();
 export const DiaryDispatchContext = React.createContext();
 
+const dummyData = [
+  {
+    id: 1,
+    emotion: 1,
+    content: "오늘의 일기 1",
+    date: 1678617350202, // ms (빠르게 예시 만드는 법 : new Date().getTime() 해서 현재시간 ms로 값 가져와보기)
+  },
+  {
+    id: 2,
+    emotion: 2,
+    content: "오늘의 일기 2",
+    date: 1678617350203,
+  },
+  {
+    id: 3,
+    emotion: 3,
+    content: "오늘의 일기 3",
+    date: 1678617350204,
+  },
+  {
+    id: 4,
+    emotion: 4,
+    content: "오늘의 일기 4",
+    date: 1678617350205,
+  },
+  {
+    id: 5,
+    emotion: 5,
+    content: "오늘의 일기 5",
+    date: 1678617350206, // 가장 최신 일기
+  },
+];
+
 function App() {
 
-  const [data, dispatch] = useReducer(reducer, []);
+  const [data, dispatch] = useReducer(reducer, dummyData);
+
+  // console.log(new Date().getTime()); // 현재시간 ms로 계산
 
   const dataId = useRef(0);
   // CREATE

@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import MyHeader from './../components/MyHeader';
 import MyButton from './../components/MyButton';
+import { DiaryStateContext } from '../App';
 
 const Home = () => {
+
+  const diaryList = useContext(DiaryStateContext);
 
   const [curDate, setCurDate] = useState(new Date()); // 현재시간 저장
   console.log(curDate);
