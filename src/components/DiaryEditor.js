@@ -46,6 +46,11 @@ const DiaryEditor = () => {
   // console.log(getStringDate(new Date()));
   const [date, setDate] = useState(getStringDate(new Date()));
 
+  const [emotion, setEmotion] = useState(3);
+  const handleClickEmotion = (emotion) => {
+    setEmotion(emotion);
+  }
+
   return (
     <div className="DiaryEditor">
       <MyHeader
@@ -68,10 +73,12 @@ const DiaryEditor = () => {
           <h4>오늘의 감정</h4>
           <div className="input_box emotion_list_wrapper">
             {emotionList.map((it) =>
-              // <div key={it.emotion_id}>
-              //   {it.emotion_descript}
-              // </div>
-              <EmotionItem key={it.emotion_id} {...it} />
+              <EmotionItem
+                key={it.emotion_id}
+                {...it}
+                onClick={handleClickEmotion}
+                isSelected={it.emotion_id === emotion} // 현재 감정 아이템의 emotion_id가 선택된 emotion과 같다면 true 전달
+              />
             )}
           </div>
         </section>
