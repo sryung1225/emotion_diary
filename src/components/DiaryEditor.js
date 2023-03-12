@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import MyHeader from "./MyHeader";
@@ -51,6 +51,9 @@ const DiaryEditor = () => {
     setEmotion(emotion);
   }
 
+  const [content, setContent] = useState("");
+  const contentRef = useRef();
+
   return (
     <div className="DiaryEditor">
       <MyHeader
@@ -80,6 +83,17 @@ const DiaryEditor = () => {
                 isSelected={it.emotion_id === emotion} // 현재 감정 아이템의 emotion_id가 선택된 emotion과 같다면 true 전달
               />
             )}
+          </div>
+        </section>
+        <section>
+          <h4>오늘의 일기</h4>
+          <div className="input_box text_wrapper">
+            <textarea
+              placeholder="오늘은 어땠나요?"
+              ref={contentRef}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
           </div>
         </section>
       </div>
